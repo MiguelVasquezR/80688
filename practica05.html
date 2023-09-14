@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica 05</title>
+</head>
+<style>
+    img {
+        box-shadow: 5px 10px 10px red;
+        border-radius: 10% 40% 40%;
+    }
+    figcaption {
+        text-align: center;
+    }
+    figure {        
+        text-align: center;
+        display: inline-block;       
+        width: 300px; 
+    }
+    img.redonda{
+        border-radius: 50%;
+    }
+</style>
+
+<body>
+    <h1>Random Picture</h1>    
+    <div id="app"></div>
+    <script>        
+        const app = document.getElementById("app");
+        const url = "https://picsum.photos/id/";
+        const size = "/200/200";                            
+        const Picture = (parametro) => {            
+            const src = url + parametro.id + size;
+            return `<figure ><img src="${src}" alt=""><figcaption>${parametro.nombre}</figcaption></figure>`;
+        }        
+        app.innerHTML = Picture({id:1, nombre:"John"});
+        app.innerHTML += Picture({id:2, nombre:"Jane"});
+        app.innerHTML += Picture({id:3, nombre:"Joane"});
+        const lista = document.querySelectorAll("img");
+        for (let i=0;i<lista.length;i++) {
+            lista[i].addEventListener("click", ()=>{
+                // lista[i].style.borderRadius = "50%";                
+                lista[i].classList.toggle("redonda");
+            });
+        }
+    </script>
+</body>
+</html>
