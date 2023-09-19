@@ -72,9 +72,22 @@
         width: 100%;
         height: 300px;
         background-color: #f3f3f3;
-        overflow: hidden;      
-        white-space: nowrap;  
+        overflow: hidden;
+        white-space: nowrap;
         position: relative;
+    }
+
+    .contenedor {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btnGuardar {
+        width: 200px;
+        height: 30px;
+        border: none;
     }
 </style>
 
@@ -90,9 +103,12 @@
 
     <div id="app" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
-    <div class="contSalvar" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
-    
+    <div class="contenedor">
+        <div class="contSalvar" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <input type="submit" value="Guardar" class="btnGuardar" id="btnGuardar">
+    </div>
+
 
     <script>
         const loginform = document.getElementById("formulario");
@@ -108,7 +124,6 @@
             const src = url + id + size;
             return `<figure ><img src="${src}" alt="" draggable="true"  ondragstart="drag(event)" id="${id}"></figure>`;
         }
-
 
         function allowDrop(ev) {
             ev.preventDefault();
