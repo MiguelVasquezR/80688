@@ -1,0 +1,108 @@
+<!-- 
+    1. A través de un formulario indicar la imagen que deseo cargar
+    1_1. Utilizar el código del ejemplo 5
+    2. Tenga un "contenedor" a donde pueda ir salvando las imagenes{moverlas}
+    3. Posteriormete, a través del mismo formulario le pueda indicar 1, 2 y 3 que deseo cargar esas imagenes.
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus 01</title>
+</head>
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body,
+    form {
+        margin: 20px auto;
+    }
+
+    h1{
+        text-align: center;
+    }
+
+    img {
+        box-shadow: 5px 10px 10px red;
+        border-radius: 10% 40% 40%;
+    }
+
+    figcaption {
+        text-align: center;
+    }
+
+    figure {
+        text-align: center;
+        display: inline-block;
+        width: 300px;
+    }
+
+    img.redonda {
+        border-radius: 50%;
+    }
+
+    .formulario {
+        width: 300px;
+        border: 1px solid blue;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .formulario input {                
+        width: 100%; 
+        margin-top: 10px;       
+        padding: 10px;
+        outline: none;
+    }
+
+    input[type="submit"]{
+        background-color: blue;
+        color: white;        
+        border: none;
+    }
+
+</style>
+
+<body>
+    <h1>Bonus 1</h1>
+
+    <form action="" class="formulario" id="formulario">
+        <label for="">Ingresa el ID's de la imagen: </label>
+        <input type="text" placeholder="Ejemplo: 1, 2, 3" id="texto">
+        <input type="submit" value="Ver Imagen">
+    </form>
+
+
+    <div id="app"></div>    
+
+
+    <script>
+        const loginform = document.getElementById("formulario");
+        const app = document.getElementById("app");
+
+        loginform.addEventListener("submit", evento => {
+            evento.preventDefault();        
+            let id = document.getElementById("texto").value;
+            app.innerHTML = Picture(id);
+        });                
+
+        const url = "https://picsum.photos/id/";
+        const size = "/200/200";                            
+        const Picture = (id) => {            
+            const src = url + id + size;
+            return `<figure ><img src="${src}" alt=""></figure>`;
+        }         
+
+</script>
+
+</body>
+
+</html>
