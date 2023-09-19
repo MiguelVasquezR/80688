@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica 06</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body,
+    form {
+        margin: 20px auto;
+    }
+
+    body {
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .formulario {
+        border: 1px solid rgba(0, 0, 0, .5);
+        box-shadow: 10px 20px 15px;
+        padding: 10px;
+        width: 300px;
+    }
+
+    input {
+        height: 35px;
+        border-radius: 5px;
+        width: 100%;
+        outline: none;
+        padding: 5px;
+        margin-bottom: 20px;
+        border: 1px solid lightslategray;
+    }
+
+    input[type="submit"] {
+        background-color: blue;
+        border: none;
+        color: white;
+        border-radius: 10px;
+    }
+</style>
+<body>
+    <h1>Inicio de Sesión</h1>
+    <form action="" class="formulario" id="formulario">
+        <label for="txUsuario">Nombre del Usuario</label>
+        <input type="text" name="txUsuario" id="txUsuario">
+        <label for="txPassword">Contraseña</label>
+        <input type="password" name="txPassword" id="txPassword">
+        <input type="submit" value="Iniciar Sesión">
+    </form>
+
+    <script>
+            const loginform = document.getElementById("formulario");
+            loginform.addEventListener("submit", evento => {
+                evento.preventDefault();
+                let u = document.getElementById("txUsuario").value;
+                let p = document.getElementById("txPassword").value;
+                // alert("Usuario: " + u + "Password: " + p);
+                alert(`Usuario: ${u} y Password: ${p}`);
+            });
+    </script>
+</body>
+</html>
