@@ -1,0 +1,69 @@
+
+:root{
+    --color-bordes: #D2CECE;
+    --btn-bc: blue;
+    --letras-color: white;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+.formulario{
+    margin: 20px auto;
+}
+
+h1{
+    text-align: center;
+}
+
+.formulario{
+    width: 400px;
+    border: 1px solid var(--color-bordes);
+    box-shadow: 10px 20px 10px;
+    padding: 0 10px;        
+}
+
+fieldset{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 5px;
+    padding: 5px;
+    border: 1px solid var(--color-bordes);
+}
+
+input[type="submit"]{        
+    width: 100%;        
+    background-color: var(--btn-bc);
+    color: var(--letras-color);    
+    border: none;        
+    padding: 5px;
+}
+
+input[type="text"], input[type="email"]{
+    border: 1px solid var(--color-bordes);
+}
+
+input{
+    height: 30px;
+    padding: 5px;        
+    outline: none;
+    margin-bottom: 20px;        
+    border-radius: 4px;        
+}
+
+input, label{
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+label{
+    margin-bottom: 2px;
+}
+
+legend{
+    padding: 0px 5px;
+}
