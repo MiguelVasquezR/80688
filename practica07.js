@@ -5,24 +5,16 @@ function crearFormulario(){
     const formulario = document.getElementById("formulario")    
 
     const fieldset = createFieldset("Información Personal");
-    const labelNombre = createLabel("Nombre: ");
-    const inputNombre = createInput("text", "txNombre");
-    const labelEmail = createLabel("Email: ");
-    const inputEmail = createInput("email", "txEmail");
-    fieldset.appendChild(labelNombre);
-    fieldset.appendChild(inputNombre);
-    fieldset.appendChild(labelEmail);
-    fieldset.appendChild(inputEmail);
+    fieldset.appendChild(createLabel("Nombre: "));
+    fieldset.appendChild(createInput("text", "txNombre"));
+    fieldset.appendChild(createLabel("Email: "));
+    fieldset.appendChild(createInput("email", "txEmail"));
 
-    const fieldsetDir = createFieldset("Información de Dirección");
-    const labelDir = createLabel("Dirección: ");
-    const inputDir = createInput("text", "txDireccion");
-    const labelCiudad = createLabel("Email: ");
-    const inputCiudad = createInput("email", "txEmail");
-    fieldsetDir.appendChild(labelDir);
-    fieldsetDir.appendChild(inputDir);
-    fieldsetDir.appendChild(labelCiudad);
-    fieldsetDir.appendChild(inputCiudad);    
+    const fieldsetDir = createFieldset("Información de Dirección");    
+    fieldsetDir.appendChild(createLabel("Dirección: "));
+    fieldsetDir.appendChild(createInput("text", "txDireccion"));
+    fieldsetDir.appendChild(createLabel("Ciudad:"));
+    fieldsetDir.appendChild(createInput("text", "txCiudad"));    
 
     const btnEnviar = document.createElement("input");
     btnEnviar.type = "submit";    
