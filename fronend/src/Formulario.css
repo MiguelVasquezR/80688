@@ -1,0 +1,11 @@
+.cont{
+    width: 500px;
+    height: 500px;
+    border: 1px solid #000;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
