@@ -3,7 +3,7 @@ import axios from 'axios';
 import style from "./Formulario.module.css";
 
 const Formulario = () => {
-  const [datos, setDatos] = useState({ nombre: '', correo: '' });
+  const [datos, setDatos] = useState({ nombre: '', correo: '', telefono:'' });
   const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Formulario = () => {
           await axios.post('http://localhost:4567/agregar', datos);
         }        
         obtenerUsuarios();        
-        setDatos({ nombre: '', correo: '' });
+        setDatos({ nombre: '', correo: '', telefono: '' });
       } catch (error) {
         console.error('Error al enviar los datos al servidor:', error);
       }
@@ -77,13 +77,26 @@ const Formulario = () => {
             className={style.formularioTxt}
           />
         </label>
+
+        <label>
+          Teléfono:
+          <input
+            type="text"
+            name="telefono"
+            value={datos.telefono}  
+            onChange={handleChange}
+            className={style.formularioTxt}
+          />
+        </label>
+
+
         <button type="submit" className={style.formularioBtn}>Guardar</button>
       </form>
 
       <ul className={style.lista}>        
         {usuarios.map((usuario) => (
           <li className={style.listaItem} key={usuario.nombre}>
-            <p>{usuario.nombre} <br /> {usuario.correo}</p>
+            <p>{usuario.nombre} <br /> {usuario.correo} <br /> {usuario.telefono} </p>
             <button className={style.btnItem} onClick={() => handleEliminar(usuario)}>
               Eliminar
             </button>
@@ -93,6 +106,8 @@ const Formulario = () => {
 
     </div>
   );
+
+
 };
 
 export default Formulario;
