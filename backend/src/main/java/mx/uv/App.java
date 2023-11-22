@@ -28,8 +28,8 @@ public class App {
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
         ArrayList<Cliente> listaCliente = new ArrayList<>();
-        Cliente cliente = new Cliente("Miguel", "mv@gmail.com");
-        Cliente cliente1 = new Cliente("Xanery", "xl@gmail.com");
+        Cliente cliente = new Cliente("Miguel", "mv@gmail.com", "2299008877");
+        Cliente cliente1 = new Cliente("Xanery", "xl@gmail.com", "2299887744");
         listaCliente.add(cliente);
         listaCliente.add(cliente1);
 
@@ -42,6 +42,7 @@ public class App {
                 if (cl.getNombre().equals(cEditar.getNombre())){
                     cl.setNombre(cEditar.getNombre());
                     cl.setCorreo(cEditar.getCorreo());
+                    cl.setTelefono(cEditar.getTelefono());
                     break;
                 }
             }
@@ -65,6 +66,7 @@ public class App {
         });
 
         get("/todos", ((request, response) -> {
+            app.seeUser(listaCliente);
             String json = gson.toJson(listaCliente);
             return json;
         }));
@@ -75,7 +77,8 @@ public class App {
         try{
             String nombre = request.queryParams("nombre");
             String correo = request.queryParams("correo");
-            Cliente cEliminar = new Cliente(nombre, correo);
+            String telefono = request.queryParams("telefono");
+            Cliente cEliminar = new Cliente(nombre, correo, telefono);
             return cEliminar;
         }catch (Exception e){
             System.out.println("Error al borrar: " + e.getMessage());
