@@ -1,0 +1,66 @@
+.contComponente{
+    border: 1px solid #000;
+    margin: 20px auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.formulario{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+
+    width: 500px;
+}
+
+.formularioTxt{
+    border: none;
+    border-bottom: 1px solid #000;    
+    margin: 10px;
+    outline: none;
+    padding: 5px;
+}
+
+.formularioBtn{
+    width: 200px;
+    height: 35px;
+    border-radius: 20px;
+    background-color: #d24949;
+    border: none;
+    color: white;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.lista{    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    border-top: 1px solid #000;
+}
+
+.listaItem{    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
+    text-align: center; 
+}
+
+.btnItem{
+    width: 90%;
+    height: 25px;
+    margin: 10px;    
+    border: none;
+    border-radius: 20px;
+    background-color: #1adaba;
+}
