@@ -2,11 +2,16 @@ package mx.uv;
 
 import static spark.Spark.*;
 
-import com.google.gson.JsonElement;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import spark.Request;
+import spark.Spark;
+
+import java.util.ArrayList;
 
 public class App {
+
     public static void main(String[] args) {
 
         options("/*", (request, response) -> {
@@ -22,37 +27,94 @@ public class App {
         });
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
-        get("/", (res, req) -> {
-            return "Hola";
-        });
+        ArrayList<Cliente> listaCliente = new ArrayList<>();
+        Cliente cliente = new Cliente("Miguel", "mv@gmail.com");
+        Cliente cliente1 = new Cliente("Xanery", "xl@gmail.com");
+        listaCliente.add(cliente);
+        listaCliente.add(cliente1);
 
-        get("/agregar", (res, req) -> {
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(req.body());
-            JsonObject object = new JsonObject();
+        App app = new App();
+        Gson gson = new Gson();
 
-            object.addProperty("usernae", "");
-            object.addProperty("", "");
-            return element.getAsJsonObject().get("nombre").getAsString();                        
-        });
-
-        get("/editar", (res, req) -> {
+        put("/editar", (request, response) -> {
+            Cliente cEditar = app.getCliente(request, gson);
+            for (Cliente cl : listaCliente){
+                if (cl.getNombre().equals(cEditar.getNombre())){
+                    cl.setNombre(cEditar.getNombre());
+                    cl.setCorreo(cEditar.getCorreo());
+                    break;
+                }
+            }
             return "Editar";
         });
 
-        get("/eliminar", (res, req) -> {
+        delete("/eliminar", (request, response) -> {
+            Cliente clN = app.deleteCliente(request);
+            int pos = app.searchCliente(clN.getNombre(), listaCliente);
+            listaCliente.remove(pos);
             return "Eliminar";
         });
 
-        post("/recibir", (response, request) -> {
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(request.body());
-            JsonObject object = new JsonObject();
-
-            object.addProperty("usernae", "");
-            object.addProperty("", "");
-            return element.getAsJsonObject().get("nombre").getAsString();            
+        post("/agregar", (request, response) -> {
+            if (app.getCliente(request, gson) != null){
+                listaCliente.add(app.getCliente(request, gson));
+                return "Agregado";
+            }else{
+                return  "No agregado";
+            }
         });
 
+        get("/todos", ((request, response) -> {
+            String json = gson.toJson(listaCliente);
+            return json;
+        }));
+
     }
+
+    public Cliente deleteCliente(Request request){
+        try{
+            String nombre = request.queryParams("nombre");
+            String correo = request.queryParams("correo");
+            Cliente cEliminar = new Cliente(nombre, correo);
+            return cEliminar;
+        }catch (Exception e){
+            System.out.println("Error al borrar: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Cliente getCliente(Request request, Gson gson){
+        try{
+            JsonParser jsonParser = new JsonParser();
+            JsonObject jsonObject = jsonParser.parse(request.body()).getAsJsonObject();
+            return gson.fromJson(jsonObject, Cliente.class);
+        }catch (Exception e){
+            System.out.println("Error al Convertir Cliente por: "+ e.getMessage());
+            return null;
+        }
+    }
+
+    public int searchCliente(String nombre, ArrayList<Cliente> listClient){
+        int index = 0, i=0;
+        for(Cliente cliente : listClient){
+            if (cliente.getNombre().equals(nombre)){
+                index = i;
+                break;
+            }else{
+                index = -1;
+            }
+            i++;
+        }
+        return index;
+    }
+
+    public String seeUser(ArrayList<Cliente> lista){
+        String clientes = "";
+        for (Cliente c : lista){
+            clientes += "\n"+c.toString();
+        }
+        return clientes;
+    }
+
+
 }
