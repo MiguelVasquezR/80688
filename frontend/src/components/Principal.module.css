@@ -1,0 +1,13 @@
+.li{
+    background-color: #00aa;    
+    list-style: none;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    transition: all .5s ease;
+}
+
+.li:hover{
+    background-color: #00bb;
+    width: 200px;
+}
