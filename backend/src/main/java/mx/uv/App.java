@@ -4,13 +4,14 @@ import static spark.Spark.*;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import spark.Request;
-import spark.Spark;
-
-import java.util.ArrayList;
+import mx.uv.conexion.Cliente;
+import mx.uv.conexion.DAOCliente;
+import java.util.UUID;
 
 public class App {
+
+    static Gson gson = new Gson();
+    static DAOCliente daoCliente = new DAOCliente();
 
     public static void main(String[] args) {
 
@@ -27,97 +28,53 @@ public class App {
         });
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
-        ArrayList<Cliente> listaCliente = new ArrayList<>();
-        Cliente cliente = new Cliente("Miguel", "mv@gmail.com", "2299008877");
-        Cliente cliente1 = new Cliente("Xanery", "xl@gmail.com", "2299887744");
-        listaCliente.add(cliente);
-        listaCliente.add(cliente1);
-
-        App app = new App();
-        Gson gson = new Gson();
 
         put("/editar", (request, response) -> {
-            Cliente cEditar = app.getCliente(request, gson);
-            for (Cliente cl : listaCliente){
-                if (cl.getNombre().equals(cEditar.getNombre())){
-                    cl.setNombre(cEditar.getNombre());
-                    cl.setCorreo(cEditar.getCorreo());
-                    cl.setTelefono(cEditar.getTelefono());
-                    break;
-                }
+            response.type("application/json");
+            String res = request.body();
+            Cliente cliente = gson.fromJson(res, Cliente.class);
+            JsonObject respuesta = new JsonObject();
+            if (daoCliente.updateUser(cliente)){
+                respuesta.addProperty("msj", "Se ha editado correctamente");
+            }else{
+                respuesta.addProperty("msj", "Hubo un error al editar");
             }
-            return "Editar";
+            return respuesta;
         });
 
         delete("/eliminar", (request, response) -> {
-            Cliente clN = app.deleteCliente(request);
-            int pos = app.searchCliente(clN.getNombre(), listaCliente);
-            listaCliente.remove(pos);
-            return "Eliminar";
+            response.type("application/json");
+            String res = request.queryParams("id");
+            JsonObject respuesta = new JsonObject();
+            if (daoCliente.deleteUser(res)){
+                respuesta.addProperty("msj", "Se ha eliminado correctamente");
+            }else{
+                respuesta.addProperty("msj", "Hubo un error al eliminar");
+            }
+            return respuesta;
         });
 
         post("/agregar", (request, response) -> {
-            if (app.getCliente(request, gson) != null){
-                listaCliente.add(app.getCliente(request, gson));
-                return "Agregado";
+            response.type("application/json");
+            String res = request.body();
+            Cliente cliente = gson.fromJson(res, Cliente.class);
+            String id = UUID.randomUUID().toString();
+            cliente.setId(id);
+            System.out.println(cliente.getId());
+            JsonObject respuesta = new JsonObject();
+            if (daoCliente.createUser(cliente)){
+                respuesta.addProperty("msj", "Se ha agregado correctamente");
             }else{
-                return  "No agregado";
+                respuesta.addProperty("msj", "Hubo un error al agregar");
             }
+            return respuesta;
         });
 
         get("/todos", ((request, response) -> {
-            app.seeUser(listaCliente);
-            String json = gson.toJson(listaCliente);
-            return json;
+            response.type("application/json");
+            return gson.toJson(daoCliente.getClientes());
         }));
 
     }
-
-    public Cliente deleteCliente(Request request){
-        try{
-            String nombre = request.queryParams("nombre");
-            String correo = request.queryParams("correo");
-            String telefono = request.queryParams("telefono");
-            Cliente cEliminar = new Cliente(nombre, correo, telefono);
-            return cEliminar;
-        }catch (Exception e){
-            System.out.println("Error al borrar: " + e.getMessage());
-            return null;
-        }
-    }
-
-    public Cliente getCliente(Request request, Gson gson){
-        try{
-            JsonParser jsonParser = new JsonParser();
-            JsonObject jsonObject = jsonParser.parse(request.body()).getAsJsonObject();
-            return gson.fromJson(jsonObject, Cliente.class);
-        }catch (Exception e){
-            System.out.println("Error al Convertir Cliente por: "+ e.getMessage());
-            return null;
-        }
-    }
-
-    public int searchCliente(String nombre, ArrayList<Cliente> listClient){
-        int index = 0, i=0;
-        for(Cliente cliente : listClient){
-            if (cliente.getNombre().equals(nombre)){
-                index = i;
-                break;
-            }else{
-                index = -1;
-            }
-            i++;
-        }
-        return index;
-    }
-
-    public String seeUser(ArrayList<Cliente> lista){
-        String clientes = "";
-        for (Cliente c : lista){
-            clientes += "\n"+c.toString();
-        }
-        return clientes;
-    }
-
 
 }
